@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { VisitorContext } from '../context/VisitorContext';
 
 export default function Visitors({title}) {
 
     const [buttonId, setButtonId] = useState('Today');
 
+    // const {setDateToFetch, visitorsFetchedByDate} = useContext(VisitorContext)
+
     const handleOnClick = (id) => {
         setButtonId(id);
+        // setDateToFetch(id)
     }
 
   return (
