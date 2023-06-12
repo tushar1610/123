@@ -1,19 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { UserLoginContext, UserLoginProvider } from '../context/UserLoginContext';
-import { Outlet, Link, redirect } from 'react-router-dom';
+import { Outlet, Link, redirect, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 export default function Login() {
 
-    const url = "http://localhost:8080/loginUser"
-
+    const url = "http://localhost:8080/user/login"
+    
+    const navigate = useNavigate();
+     
     const loginUser = async(url, body) => {
            axios.post(url, body)
            .then((response) => {
             console.log(response)
-            // return(
-            //     redirect(response.data)
-            // )
+            navigate("/userPage")
         })
            .catch((error) => {console.log(error)})
     }

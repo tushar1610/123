@@ -14,7 +14,7 @@ function App() {
   return (
     <SocietyUserProvider>
       {/* <VisitorContextProvider> */}
-      <BrowserRouter>
+      
         <Routes>
           <Route path="/" element={<Navbar/>}>
             <Route index element={<Home/>}/>
@@ -24,7 +24,6 @@ function App() {
             <Route path='guardPage' element={<GuardPage/>}/>
           </Route>
         </Routes>
-      </BrowserRouter>
       {/* <div className="App"> */}
         {/* <Navbar/>
         <Home/> */}
@@ -34,6 +33,7 @@ function App() {
       {/* </div> */}
       {/* </VisitorContextProvider> */}
     </SocietyUserProvider>
+
   );
 }
 
