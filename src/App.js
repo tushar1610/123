@@ -12,8 +12,9 @@ import { VisitorContextProvider } from './context/VisitorContext';
 
 function App() {
   return (
+    <UserLoginProvider>
     <SocietyUserProvider>
-      {/* <VisitorContextProvider> */}
+      <VisitorContextProvider>
       
         <Routes>
           <Route path="/" element={<Navbar/>}>
@@ -31,8 +32,9 @@ function App() {
         {/* <GuardPage/> */}
         {/* <Registration/> */}
       {/* </div> */}
-      {/* </VisitorContextProvider> */}
+      </VisitorContextProvider>
     </SocietyUserProvider>
+    </UserLoginProvider>
 
   );
 }

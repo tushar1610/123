@@ -3,13 +3,16 @@ import React, { useEffect, useState } from "react";
 
 export const VisitorContext = React.createContext()
 
-const getAllVisitorsByDateUrl = "http://localhost:8080/getAllVisitorsByDate"
+const getAllVisitorsByDateUrl = "http://localhost:8080/visitor/get/all/date"
+const getAllVisitorsUrl = "http://localhost:8080/visitor/get/all"
+const getAllVisitorsByFlatNoUrl = "http://localhost:8080/visitor/get/all/flatNo/"
 
 export const VisitorContextProvider = ({children}) => {
 
     const [dateToFetch, setDateToFetch] = useState("Today")
 
     const [visitorsFetchedByDate, setVisitorsFetchedByDate] = useState([])
+    const [allVistorsFetched, setAllVisitorsFetched] = useState([])
 
     const getDate = (dateToFetch) => {
         const currentDate = new Date();
@@ -42,17 +45,30 @@ export const VisitorContextProvider = ({children}) => {
         }
     }
 
+    const getAllVisitors = async(url, date) => {
+        try {
+            const {data} = await axios.get(url);
+            console.log(data)
+            if(data){
+                setAllVisitorsFetched(data.visitors)
+                console.log(allVistorsFetched)
+            }
+        } catch (error) {
+            console.log(error.response)
+        }
+    }
+
     useEffect(() => {
         if(dateToFetch !== 'See All'){
             const date = getDate(dateToFetch);
             getAllVisitorsByDate(getAllVisitorsByDateUrl, date)
-        }// } else {
-        //     // getAllVisitorsByDate(get)
-        // }
+        } else {
+            getAllVisitors(getAllVisitorsUrl)
+        }
     }, [dateToFetch])
 
     return(
-        <VisitorContext.Provider value={{setDateToFetch, visitorsFetchedByDate}}>
+        <VisitorContext.Provider value={{setDateToFetch, visitorsFetchedByDate, allVistorsFetched}}>
             {children}
         </VisitorContext.Provider>
     )

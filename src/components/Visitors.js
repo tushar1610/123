@@ -1,15 +1,16 @@
 import React, { useContext, useState } from 'react'
+import { Card } from 'react-bootstrap';
 import { VisitorContext } from '../context/VisitorContext';
 
 export default function Visitors({title}) {
 
     const [buttonId, setButtonId] = useState('Today');
 
-    // const {setDateToFetch, visitorsFetchedByDate} = useContext(VisitorContext)
+    const {setDateToFetch, visitorsFetchedByDate, allVistorsFetched} = useContext(VisitorContext)
 
     const handleOnClick = (id) => {
         setButtonId(id);
-        // setDateToFetch(id)
+        setDateToFetch(id)
     }
 
   return (
@@ -23,16 +24,31 @@ export default function Visitors({title}) {
                 </div>
             </div>
 
-            <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
-                <div className="card-body">
-                    <h5 className="card-title">Full Name : User 1</h5>
+            {buttonId !== "See All" && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
+                {visitorsFetchedByDate.map((visitor) => (
+                    <div key={visitor.visitorId} className="card-body">
+                    <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
                     <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
-                        <p className="card-text">Intime : --:--</p>
-                        <p className="card-text">OutTime : --:--</p>
+                        <p className="card-text">Intime : {visitor.inTime}</p>
+                        <p className="card-text">OutTime : {visitor.outTime !== null ? visitor.outTime: '--:--'}</p>
                     </div>
-                    {title === "societyUser" ? <p className="card-text">Guard Name : Guard 1</p> : <p className="card-text">Flat No : A101</p>}
+                    {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
                 </div>
-            </div>
+                ))}    
+            </div>}
+
+            {buttonId === "See All" && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
+                {allVistorsFetched.map((visitor) => (
+                    <div key={visitor.visitorId} className="card-body">
+                    <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
+                    <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
+                        <p className="card-text">Intime : {visitor.inTime}</p>
+                        <p className="card-text">OutTime : {visitor.outTime !== null ? visitor.outTime: '--:--'}</p>
+                    </div>
+                    {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
+                </div>
+                ))}    
+            </div>}
     </div>
   )
 }

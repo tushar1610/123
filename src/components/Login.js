@@ -1,22 +1,12 @@
 import React, { useContext, useState } from 'react'
 import { UserLoginContext, UserLoginProvider } from '../context/UserLoginContext';
-import { Outlet, Link, redirect, useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
-    const url = "http://localhost:8080/user/login"
+    const {setCredentials, user} = useContext(UserLoginContext)
     
     const navigate = useNavigate();
-     
-    const loginUser = async(url, body) => {
-           axios.post(url, body)
-           .then((response) => {
-            console.log(response)
-            navigate("/userPage")
-        })
-           .catch((error) => {console.log(error)})
-    }
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -24,7 +14,15 @@ export default function Login() {
         "username" : document.getElementById("username").value,
         "password" : document.getElementById("password").value
         }
-        loginUser(url, body)
+        setCredentials(body)
+        if(user !== undefined){
+            return (
+                <div>
+                    <Link to="/userPage"/>
+                    <Outlet/>
+                </div>
+            )
+        }
     }
 
   return (
