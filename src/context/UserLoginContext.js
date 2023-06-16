@@ -15,12 +15,14 @@ export const UserLoginProvider = ({children}) => {
     const navigate = useNavigate()
 
     const loginUser = async(url, body) => {
-        axios.post(url, body)
+        await axios.post(url, body)
            .then((response) => {
             console.log(response)
             if(response.status === 200){
-                sessionStorage.setItem("email", response.data.username)
-                sessionStorage.setItem("role", response.data.authorities[0].authority)
+                localStorage.setItem("email", response.data.username)
+                localStorage.setItem("role", response.data.authorities[0].authority)
+                let tempemail = response.data.username
+                setEmailAddress(tempemail)
                 navigate("/userPage")
             }
         })
@@ -60,6 +62,7 @@ export const UserLoginProvider = ({children}) => {
         if(emailAddress !== undefined && emailAddress !== ""){
             console.log(emailAddress)
             fetchUserDetails(userDetailsUrl, emailAddress)
+            setEmailAddress("")
         }
     }, [emailAddress])
 

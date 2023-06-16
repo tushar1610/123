@@ -9,11 +9,13 @@ import Login from './components/Login';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserLoginProvider } from './context/UserLoginContext';
 import { VisitorContextProvider } from './context/VisitorContext';
+import { GuardContextProvider } from './context/GuardContext';
 
 function App() {
   return (
     <UserLoginProvider>
     <SocietyUserProvider>
+      <GuardContextProvider>
       <VisitorContextProvider>
       
         <Routes>
@@ -33,6 +35,7 @@ function App() {
         {/* <Registration/> */}
       {/* </div> */}
       </VisitorContextProvider>
+      </GuardContextProvider>
     </SocietyUserProvider>
     </UserLoginProvider>
 

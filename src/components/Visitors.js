@@ -8,9 +8,45 @@ export default function Visitors({title}) {
 
     const {setDateToFetch, visitorsFetchedByDate, allVistorsFetched} = useContext(VisitorContext)
 
+    const [currentIndex, setCurrentIndex] = useState(0)
+
     const handleOnClick = (id) => {
         setButtonId(id);
         setDateToFetch(id)
+    }
+
+    const handlePrev = () => {
+        setCurrentIndex((prevIndex) => prevIndex - 5)
+    }
+
+    const handleNext = () => {
+        setCurrentIndex((prevIndex) => prevIndex + 5)
+    }
+
+    const displayCards = (data) => {
+        return (
+            <div className="card-group">
+                {
+                    data.slice(currentIndex, currentIndex + 5).map((visitor, index) => (
+                    <div key={index} className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
+                        <div  className="card-body">
+                            <h5 className="card-title">Name : {visitor.visitorName}</h5>
+                            <div className='container'>
+                                <p className="card-text">Intime : {visitor.inTime}</p>
+                            </div>
+                            <div className='container'>
+                                <p className="card-text">OutTime : {visitor.outTime !== null ? visitor.outTime: '--:--'}</p>
+                            </div>
+                            <div className='container'>
+                            {title === "societyUser" ? <p className="card-text">Guard : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
+                            </div>
+                    
+                        </div>
+                    </div>
+                    ))
+                }
+            </div>
+        )
     }
 
   return (
@@ -24,9 +60,23 @@ export default function Visitors({title}) {
                 </div>
             </div>
 
-            {buttonId !== "See All" && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
-                {visitorsFetchedByDate.map((visitor) => (
-                    <div key={visitor.visitorId} className="card-body">
+            <div className="container mt-4">
+                <div className="row">
+                    <div className="col">
+                        <button className="btn btn-primary" onClick={handlePrev} disabled={currentIndex <= 0}>{"<"}</button>
+                    </div>
+                    <div className="col text-right">
+                        <button className="btn btn-primary" onClick={handleNext} disabled={buttonId !== "See All" ? currentIndex >= visitorsFetchedByDate.length - 5 : currentIndex >= allVistorsFetched.length - 5}>Next</button>
+                    </div>
+                </div>
+                <div className="row mt-4">
+                        {buttonId !== 'See All' ? displayCards(visitorsFetchedByDate) : displayCards(allVistorsFetched)}
+                </div>
+            </div>
+            {/* {buttonId !== 'See All' && <div>
+                {visitorsFetchedByDate && visitorsFetchedByDate.map((visitor) => (
+                    <div key={visitor.visitorId} className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
+                    <div  className="card-body">
                     <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
                     <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
                         <p className="card-text">Intime : {visitor.inTime}</p>
@@ -34,11 +84,12 @@ export default function Visitors({title}) {
                     </div>
                     {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
                 </div>
+                </div>
                 ))}    
-            </div>}
+            </div>} */}
 
-            {buttonId === "See All" && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
-                {allVistorsFetched.map((visitor) => (
+            {/* {buttonId === 'See All' && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
+                {allVistorsFetched && allVistorsFetched.map((visitor) => (
                     <div key={visitor.visitorId} className="card-body">
                     <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
                     <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
@@ -48,7 +99,7 @@ export default function Visitors({title}) {
                     {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
                 </div>
                 ))}    
-            </div>}
+            </div>} */}
     </div>
   )
 }

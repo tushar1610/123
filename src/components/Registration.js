@@ -1,9 +1,14 @@
 import React, { useContext, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { SocietyUserContext } from '../context/SocietyUserContext';
+import { Outlet, Link } from 'react-router-dom';
 
 export default function Registration() {
 
     const [buttonId, setButtonId] = useState('submit');
+
+    const [userRole, setUserRole] = useState("ROLE_SOCIETY_USER")
+    const [userIsAdmin, setUserIsAdmin] = useState(false);
 
     const {setSocietyUser} = useContext(SocietyUserContext)
 
@@ -18,55 +23,79 @@ export default function Registration() {
         setButtonId(id);
     }
 
+    const handlePageChange = (e) => {
+        return(
+            <div>
+                <Link to="/login"/>
+                <Outlet/>
+            </div>
+        )
+    }
+
+    const handleRoleClick = (e) => {
+        console.log(e.target.id)
+        if(e.target.id === "adminUser"){
+            setUserIsAdmin(true)
+            setUserRole("ROLE_ADMIN")
+        } else {
+            if(e.target.id === "societyUser"){
+                setUserIsAdmin(false)
+                setUserRole("ROLE_SOCIETY_USER")
+            } else {
+                setUserIsAdmin(false)
+                setUserRole("ROLE_GUARD_USER")
+            }
+        }
+    }
+
   return (
-    <div>
-        <form>
+    <center>
+        <div className="container">
+            <h3 className="mt-3">Register</h3>
+        </div>
+        <form style={{width : "40%"}}>
             <div className="mb-3">
-                <label htmlFor="inputUserName" className="form-label">Username</label>
-                <input type="text" className="form-control" id="inputUserName"/>
+                <input type="text" placeholder="Username" className="form-control" id="inputUserName"/>
             </div>
             <div className="mb-3">
-                <label htmlFor="inputAge" className="form-label">Age</label>
-                <input type="number" className="form-control" id="inputAge"/>
+                <input type="email" placeholder="Email Address" className="form-control" id="inputEmail"/>
+            </div>
+            <div className="input-group gap-5">
+                <div className="mb-3">
+                    <input type="number" placeholder="Age" className="form-control" id="inputAge"/>
+                </div>
+                <div className="mb-3">
+                    <input type="number" placeholder="Contact Number" className="form-control" id="inputContactNo"/>
+                </div>
             </div>
             <div className="mb-3">
-                <label htmlFor="inputContactNo" className="form-label">Contact Number</label>
-                <input type="number" className="form-control" id="inputContactNo"/>
+                <input type="text" placeholder="Gender" className="form-control" id="inputGender"/>
             </div>
             <div className="mb-3">
-                <label htmlFor="inputGender" className="form-label">Gender</label>
-                <input type="text" className="form-control" id="inputGender"/>
+                <input type="password" placeholder="Password" className="form-control" id="inputPassword"/>
             </div>
             <div className="mb-3">
-                <label htmlFor="inputEmail" className="form-label">Email address</label>
-                <input type="email" className="form-control" id="inputEmail"/>
+                <input type="text" placeholder="Flat Number" className="form-control" id="inputFlatNo"/>
             </div>
             <div className="mb-3">
-                <label htmlFor="inputPassword" className="form-label">Password</label>
-                <input type="password" className="form-control" id="inputPassword"/>
+                <input type="text" placeholder="Owner Name" className="form-control" id="inputOwnerName"/>
             </div>
-            <div className="mb-3">
-                <label htmlFor="inputFlatNo" className="form-label">Flat Number</label>
-                <input type="text" className="form-control" id="inputFlatNo"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="inputIsAdmin" className="form-label">IsAdmin</label>
-                <input type="text" className="form-control" id="inputIsAdmin"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="inputOwnerName" className="form-label">Owner Name</label>
-                <input type="text" className="form-control" id="inputOwnerName"/>
-            </div>
-            <div className="mb-3">
-                <label htmlFor="inputRole" className="form-label">Role</label>
-                <input type="text" className="form-control" id="inputRole"/>
+            <div className="dropdown">
+                <button style={{float : "left"}} className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {`${userRole}`}
+                </button>
+                <ul className="dropdown-menu">
+                    <li className="dropdown-item" id="adminUser" onClick={(e) => handleRoleClick(e)}>Admin</li>
+                    <li className="dropdown-item" id="societyUser" onClick={(e) => handleRoleClick(e)}>Society Member</li>
+                    <li className="dropdown-item" id="guardUser" onClick={(e) => handleRoleClick(e)}>Guard</li>
+                </ul>
             </div>
             <div className='container' >
                 <button type="submit" style={{float : 'right'}} className={buttonId === "submit" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={(e) => {
                     handleOnSubmit(e, 'submit')
                     setSocietyUser({
                         flatNo: document.getElementById("inputFlatNo").value,
-                        isAdmin: document.getElementById("inputIsAdmin").value,
+                        isAdmin: userIsAdmin,
                         ownerName: document.getElementById("inputOwnerName").value,
                         user: {
                             userName: document.getElementById("inputUserName").value,
@@ -75,13 +104,14 @@ export default function Registration() {
                             gender: document.getElementById("inputGender").value,
                             email: document.getElementById("inputEmail").value,
                             password: document.getElementById("inputPassword").value,
-                            role: document.getElementById("inputRole").value
+                            role: userRole
                         }
                     })
+                    handlePageChange(e)
                 }}>Submit</button>
                 <button type="cancel" style={{float : 'right'}} className={buttonId === "cancel" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={(e) => handleOnClick(e, 'cancel')}>Cancel</button>
             </div>
         </form>
-    </div>
+    </center>
   )
 }

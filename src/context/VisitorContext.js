@@ -9,7 +9,7 @@ const getAllVisitorsByFlatNoUrl = "http://localhost:8080/visitor/get/all/flatNo/
 
 export const VisitorContextProvider = ({children}) => {
 
-    const [dateToFetch, setDateToFetch] = useState("Today")
+    const [dateToFetch, setDateToFetch] = useState('Today')
 
     const [visitorsFetchedByDate, setVisitorsFetchedByDate] = useState([])
     const [allVistorsFetched, setAllVisitorsFetched] = useState([])
@@ -37,7 +37,11 @@ export const VisitorContextProvider = ({children}) => {
             });
             console.log(data)
             if(data){
-                setVisitorsFetchedByDate(data.visitors)
+                let tempVisitors = []
+                data.forEach(visitor => {
+                    tempVisitors.push(visitor)
+                });
+                setVisitorsFetchedByDate(tempVisitors)
                 console.log(visitorsFetchedByDate)
             }
         } catch (error) {
@@ -45,12 +49,16 @@ export const VisitorContextProvider = ({children}) => {
         }
     }
 
-    const getAllVisitors = async(url, date) => {
+    const getAllVisitors = async(url) => {
         try {
             const {data} = await axios.get(url);
             console.log(data)
             if(data){
-                setAllVisitorsFetched(data.visitors)
+                let tempVisitors = []
+                data.forEach(visitor => {
+                    tempVisitors.push(visitor)
+                });
+                setAllVisitorsFetched(tempVisitors)
                 console.log(allVistorsFetched)
             }
         } catch (error) {
