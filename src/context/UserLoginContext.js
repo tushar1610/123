@@ -19,11 +19,18 @@ export const UserLoginProvider = ({children}) => {
            .then((response) => {
             console.log(response)
             if(response.status === 200){
-                localStorage.setItem("email", response.data.username)
-                localStorage.setItem("role", response.data.authorities[0].authority)
-                let tempemail = response.data.username
-                setEmailAddress(tempemail)
-                navigate("/userPage")
+                console.log(response)
+                if(response.data.authorities[0].authority !== "ROLE_GUARD_USER"){
+                    localStorage.setItem("email", response.data.username)
+                    localStorage.setItem("role", response.data.authorities[0].authority)
+                    let tempEmail = localStorage.getItem("email")
+                    setEmailAddress(tempEmail)
+                } else {
+                    localStorage.setItem("guardEmail", response.data.username)
+                    localStorage.setItem("guardRole", response.data.authorities[0].authority)
+                    let tempEmail = localStorage.getItem("guardEmail")
+                    setEmailAddress(tempEmail)
+                }
             }
         })
            .catch((error) => {console.log(error)})
@@ -50,10 +57,20 @@ export const UserLoginProvider = ({children}) => {
                     role: response.data.role
                 }
                 setUser(tempUser)
-                localStorage.setItem("loggedInUser", user)
+                if(response.data.role !== "ROLE_GUARD_USER"){
+                    localStorage.setItem("userId", tempUser.userId)
+                    navigate("/userPage")
+                } else {
+                    localStorage.setItem("guardUserId", tempUser.userId)
+                    navigate("/guardPage")
+                }
             }
         }).catch((error) => {
-            console.log(error)
+            if(error.response.status === 403){
+                navigate("/login")
+            } else {
+                console.log(error.response)
+            }
         })
     }
 
@@ -62,7 +79,6 @@ export const UserLoginProvider = ({children}) => {
         if(emailAddress !== undefined && emailAddress !== ""){
             console.log(emailAddress)
             fetchUserDetails(userDetailsUrl, emailAddress)
-            setEmailAddress("")
         }
     }, [emailAddress])
 

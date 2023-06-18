@@ -5,6 +5,7 @@ import "../App.css";
 
 export default function Login() {
 
+    const navigate = useNavigate()
     const {setCredentials} = useContext(UserLoginContext)
 
     const handleOnSubmit = (e) => {
@@ -17,7 +18,7 @@ export default function Login() {
     }
 
   return (
-    <div className='login-form'>
+    <center>
         <h3 className="mt-3 mb-3">Login</h3>
         <form style={{width : "40%"}} onSubmit={handleOnSubmit} action="/loginUser">
             <div className="mb-3">
@@ -32,6 +33,6 @@ export default function Login() {
             </div>
         </form>
         {/* <Outlet/> */}
-    </div>
+    </center>
   )
 }

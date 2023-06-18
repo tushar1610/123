@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { SocietyUserContext } from '../context/SocietyUserContext';
 import { Outlet, Link } from 'react-router-dom';
+import { GuardContext } from '../context/GuardContext';
 
 export default function Registration() {
 
@@ -11,6 +12,8 @@ export default function Registration() {
     const [userIsAdmin, setUserIsAdmin] = useState(false);
 
     const {setSocietyUser} = useContext(SocietyUserContext)
+
+    const {setGuardUser} = useContext(GuardContext)
 
     const handleOnSubmit = (e, id) => {
         e.preventDefault();
@@ -74,12 +77,16 @@ export default function Registration() {
             <div className="mb-3">
                 <input type="password" placeholder="Password" className="form-control" id="inputPassword"/>
             </div>
-            <div className="mb-3">
+            {userRole !== "ROLE_GUARD_USER" ? <div className="mb-3">
                 <input type="text" placeholder="Flat Number" className="form-control" id="inputFlatNo"/>
-            </div>
-            <div className="mb-3">
+            </div> : <div className="mb-3">
+                <input type="text" placeholder="Shift Time" className="form-control" id="inputShiftTime"/>
+            </div>}
+            {userRole !== "ROLE_GUARD_USER" ? <div className="mb-3">
                 <input type="text" placeholder="Owner Name" className="form-control" id="inputOwnerName"/>
-            </div>
+            </div> : <div className="mb-3">
+                <input type="text" placeholder="Address" className="form-control" id="inputAddress"/>
+            </div>}
             <div className="dropdown">
                 <button style={{float : "left"}} className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {`${userRole}`}
@@ -93,20 +100,37 @@ export default function Registration() {
             <div className='container' >
                 <button type="submit" style={{float : 'right'}} className={buttonId === "submit" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={(e) => {
                     handleOnSubmit(e, 'submit')
-                    setSocietyUser({
-                        flatNo: document.getElementById("inputFlatNo").value,
-                        isAdmin: userIsAdmin,
-                        ownerName: document.getElementById("inputOwnerName").value,
-                        user: {
-                            userName: document.getElementById("inputUserName").value,
-                            age: document.getElementById("inputAge").value,
-                            contactNo: document.getElementById("inputContactNo").value,
-                            gender: document.getElementById("inputGender").value,
-                            email: document.getElementById("inputEmail").value,
-                            password: document.getElementById("inputPassword").value,
-                            role: userRole
-                        }
-                    })
+                    if(userRole !== "ROLE_GUARD_USER"){
+                        setSocietyUser({
+                            flatNo: document.getElementById("inputFlatNo").value,
+                            isAdmin: userIsAdmin,
+                            ownerName: document.getElementById("inputOwnerName").value,
+                            user: {
+                                userName: document.getElementById("inputUserName").value,
+                                age: document.getElementById("inputAge").value,
+                                contactNo: document.getElementById("inputContactNo").value,
+                                gender: document.getElementById("inputGender").value,
+                                email: document.getElementById("inputEmail").value,
+                                password: document.getElementById("inputPassword").value,
+                                role: userRole
+                            }
+                        })
+                    } else {
+                        setGuardUser({
+                            address: document.getElementById("inputAddress").value,
+                            isAdmin: userIsAdmin,
+                            shiftTime: document.getElementById("inputShiftTime").value,
+                            user: {
+                                userName: document.getElementById("inputUserName").value,
+                                age: document.getElementById("inputAge").value,
+                                contactNo: document.getElementById("inputContactNo").value,
+                                gender: document.getElementById("inputGender").value,
+                                email: document.getElementById("inputEmail").value,
+                                password: document.getElementById("inputPassword").value,
+                                role: userRole
+                            }
+                        })
+                    }
                     handlePageChange(e)
                 }}>Submit</button>
                 <button type="cancel" style={{float : 'right'}} className={buttonId === "cancel" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={(e) => handleOnClick(e, 'cancel')}>Cancel</button>

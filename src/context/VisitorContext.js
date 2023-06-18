@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 
 export const VisitorContext = React.createContext()
 
-const getAllVisitorsByDateUrl = "http://localhost:8080/visitor/get/all/date"
+const getAllVisitorsByDateAndFlatNoUrl = "http://localhost:8080/visitor/get/all/date/and/flatNo"
 const getAllVisitorsUrl = "http://localhost:8080/visitor/get/all"
 const getAllVisitorsByFlatNoUrl = "http://localhost:8080/visitor/get/all/flatNo/"
 
 export const VisitorContextProvider = ({children}) => {
 
-    const [dateToFetch, setDateToFetch] = useState('Today')
+    const [dateToFetch, setDateToFetch] = useState('')
 
     const [visitorsFetchedByDate, setVisitorsFetchedByDate] = useState([])
     const [allVistorsFetched, setAllVisitorsFetched] = useState([])
@@ -67,11 +67,13 @@ export const VisitorContextProvider = ({children}) => {
     }
 
     useEffect(() => {
-        if(dateToFetch !== 'See All'){
-            const date = getDate(dateToFetch);
-            getAllVisitorsByDate(getAllVisitorsByDateUrl, date)
-        } else {
-            getAllVisitors(getAllVisitorsUrl)
+        if(dateToFetch !== ''){
+            if(dateToFetch !== 'See All'){
+                const date = getDate(dateToFetch);
+                getAllVisitorsByDate(getAllVisitorsByDateAndFlatNoUrl, date)
+            } else {
+                getAllVisitors(getAllVisitorsByFlatNoUrl)
+            }
         }
     }, [dateToFetch])
 

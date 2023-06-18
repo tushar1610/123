@@ -10,6 +10,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserLoginProvider } from './context/UserLoginContext';
 import { VisitorContextProvider } from './context/VisitorContext';
 import { GuardContextProvider } from './context/GuardContext';
+import UserProfile from './components/UserProfile';
+import GuardProfile from './components/GuardProfile';
 
 function App() {
   return (
@@ -17,7 +19,6 @@ function App() {
     <SocietyUserProvider>
       <GuardContextProvider>
       <VisitorContextProvider>
-      
         <Routes>
           <Route path="/" element={<Navbar/>}>
             <Route index element={<Home/>}/>
@@ -25,15 +26,10 @@ function App() {
             <Route path='registrationPage' element={<Registration/>}/>
             <Route path='userPage' element={<UserPage/>}/>
             <Route path='guardPage' element={<GuardPage/>}/>
+            <Route path='userProfile' element={<UserProfile/>}/>
+            <Route path='guardProfile' element={<GuardProfile/>}/>
           </Route>
         </Routes>
-      {/* <div className="App"> */}
-        {/* <Navbar/>
-        <Home/> */}
-        {/* <UserPage/> */}
-        {/* <GuardPage/> */}
-        {/* <Registration/> */}
-      {/* </div> */}
       </VisitorContextProvider>
       </GuardContextProvider>
     </SocietyUserProvider>

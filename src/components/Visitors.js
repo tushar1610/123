@@ -73,33 +73,6 @@ export default function Visitors({title}) {
                         {buttonId !== 'See All' ? displayCards(visitorsFetchedByDate) : displayCards(allVistorsFetched)}
                 </div>
             </div>
-            {/* {buttonId !== 'See All' && <div>
-                {visitorsFetchedByDate && visitorsFetchedByDate.map((visitor) => (
-                    <div key={visitor.visitorId} className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
-                    <div  className="card-body">
-                    <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
-                    <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
-                        <p className="card-text">Intime : {visitor.inTime}</p>
-                        <p className="card-text">OutTime : {visitor.outTime !== null ? visitor.outTime: '--:--'}</p>
-                    </div>
-                    {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
-                </div>
-                </div>
-                ))}    
-            </div>} */}
-
-            {/* {buttonId === 'See All' && <div className='card m-2 border border-secondary-subtle border-5 rounded' style={{cursor: "pointer"}}>
-                {allVistorsFetched && allVistorsFetched.map((visitor) => (
-                    <div key={visitor.visitorId} className="card-body">
-                    <h5 className="card-title">Full Name : {visitor.visitorName}</h5>
-                    <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
-                        <p className="card-text">Intime : {visitor.inTime}</p>
-                        <p className="card-text">OutTime : {visitor.outTime !== null ? visitor.outTime: '--:--'}</p>
-                    </div>
-                    {title === "societyUser" ? <p className="card-text">Guard Name : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
-                </div>
-                ))}    
-            </div>} */}
     </div>
   )
 }
