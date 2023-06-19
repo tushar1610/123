@@ -5,16 +5,15 @@ import "../App.css";
 
 export default function Login() {
 
-    const navigate = useNavigate()
     const {setCredentials} = useContext(UserLoginContext)
 
-    const handleOnSubmit = (e) => {
+    const handleOnSubmit = async(e) => {
         e.preventDefault();
         let body = {
         "username" : document.getElementById("username").value,
         "password" : document.getElementById("password").value
         }
-        setCredentials(body)
+        await setCredentials(body)
     }
 
   return (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import axios from 'axios'
 import { useNavigate} from 'react-router-dom'
+import {encode as base64_encode} from 'base-64'
 
 export const UserLoginContext = React.createContext()
 
@@ -11,6 +12,7 @@ export const UserLoginProvider = ({children}) => {
     const [credentials, setCredentials] = useState()
     const [emailAddress, setEmailAddress] = useState()
     const [user, setUser] = useState()
+
 
     const navigate = useNavigate()
 
@@ -44,7 +46,11 @@ export const UserLoginProvider = ({children}) => {
     }, [credentials])
 
     const fetchUserDetails = async(url, emailId) => {
-        await axios.get(url + `${emailId}` ).then((response) => {
+        // let stringToEncode = credentials.username + ":" + credentials.password;
+        // console.log(stringToEncode)
+        // const authHeader = base64_encode(stringToEncode)
+        // console.log(authHeader)
+        await axios.get(url + `${emailId}`).then((response) => {
             console.log(response)
             if(response.status === 200){
                 let tempUser = {
@@ -83,7 +89,7 @@ export const UserLoginProvider = ({children}) => {
     }, [emailAddress])
 
     return (
-        <UserLoginContext.Provider value={{setCredentials, user, setEmailAddress}}>
+        <UserLoginContext.Provider value={{setCredentials, user, setEmailAddress, credentials}}>
             {children}
         </UserLoginContext.Provider>
     )

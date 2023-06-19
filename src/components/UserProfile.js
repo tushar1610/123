@@ -56,7 +56,7 @@ export default function UserProfile(){
             flatNo: inputs.flatNo !== '' ? inputs.flatNo : fetchedSocietyUser.flatNo,
             isAdmin: fetchedSocietyUser.isAdmin,
             user: {
-                userId: fetchedSocietyUser.user.userId,
+              userId: fetchedSocietyUser.user.userId,
               userName: inputs.username !== '' ? inputs.username : fetchedSocietyUser.user.userName,
               email: fetchedSocietyUser.user.email,
               age: inputs.age !== '' ? inputs.age : fetchedSocietyUser.user.age,

@@ -52,13 +52,13 @@ export default function Visitors({title}) {
   return (
     <div>
         <div className='container' style={{display : 'flex', justifyContent : 'space-between', alignItems : 'center'}}>
-                <h3 className='titleVisitor'>Visitors</h3> 
-                <div className="button-group">
-                    <button style={{float : 'right'}} className={buttonId === "See All" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('See All')}>See All</button>
-                    <button style={{float : 'right'}} className={buttonId === "Yesterday" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('Yesterday')}>Yesterday</button>
-                    <button style={{float : 'right'}} className={buttonId === "Today" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('Today')}>Today</button>
-                </div>
+            <h3 className='titleVisitor'>Visitors</h3> 
+            <div className="button-group">
+                <button style={{float : 'right'}} className={buttonId === "See All" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('See All')}>See All</button>
+                <button style={{float : 'right'}} className={buttonId === "Yesterday" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('Yesterday')}>Yesterday</button>
+                <button style={{float : 'right'}} className={buttonId === "Today" ? "btn btn-primary gap-2" : "btn transparent-button gap-2"} onClick={() => handleOnClick('Today')}>Today</button>
             </div>
+        </div>
 
             <div className="container mt-4">
                 <div className="row">

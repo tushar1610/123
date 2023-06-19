@@ -5,22 +5,48 @@ import { PersonCircle } from "react-bootstrap-icons"
 import { useContext } from 'react';
 import { UserLoginContext } from '../context/UserLoginContext';
 import { SocietyUserContext } from '../context/SocietyUserContext';
+import { GuardContext } from '../context/GuardContext';
 
 export default function Navbar() {
 
-  const role = localStorage.getItem("role")
-  const email = localStorage.getItem("email")
-
   const navigate = useNavigate()
+
+  let role = ""
+  let email = ""
 
   const {setEmailAddress} = useContext(UserLoginContext)
   const {setUserId} = useContext(SocietyUserContext)
+  const {setGuardUserId} = useContext(GuardContext)
 
-  const profileButton = () => {
+
+  if(localStorage.getItem("role")){
+    role = localStorage.getItem("role")
+  } else {
+    if(localStorage.getItem("guardRole")){
+      role = localStorage.getItem("guardRole")
+    }
+  }
+
+  if(localStorage.getItem("email")){
+    email = localStorage.getItem("email")
+  } else {
+    if(localStorage.getItem("guardEmail")){
+      email = localStorage.getItem("guardEmail")
+    }
+  }
+
+  const profileButton = async() => {
     if(email !== undefined && email !== null && email !== "" ){
-        setEmailAddress(email)
-        let tempId = localStorage.getItem("userId")
-        setUserId(tempId)
+        await setEmailAddress(email)
+        let tempId;
+        if(role === "ROLE_GUARD_USER"){
+          tempId = localStorage.getItem("guardUserId")
+          await setGuardUserId(tempId)
+        } else {
+          tempId = localStorage.getItem("userId")
+          await setUserId(tempId)
+        }
+        
     }
   }
 

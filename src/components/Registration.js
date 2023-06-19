@@ -118,7 +118,6 @@ export default function Registration() {
                     } else {
                         setGuardUser({
                             address: document.getElementById("inputAddress").value,
-                            isAdmin: userIsAdmin,
                             shiftTime: document.getElementById("inputShiftTime").value,
                             user: {
                                 userName: document.getElementById("inputUserName").value,
