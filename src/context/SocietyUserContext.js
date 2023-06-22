@@ -37,7 +37,12 @@ export const SocietyUserProvider = ({children}) => {
 
     const getSocietyUserByUserId = async(url, userId) => {
         console.log(userId)
-        await axios.get(url + `${userId}`).then((response) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        await axios.get(url + `${userId}`, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        }).then((response) => {
             localStorage.setItem("societyUser", JSON.stringify(response.data))
             setFetchedSocietyUser(response.data)
             console.log(response.data)
@@ -66,7 +71,12 @@ export const SocietyUserProvider = ({children}) => {
 
     const updateSocietyUser = async(url, userId, body) => {
         console.log(userId)
-        await axios.put(url + `${userId}`, body).then((response) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        await axios.put(url + `${userId}`, body, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        }).then((response) => {
             localStorage.setItem("societyUser", JSON.stringify(response.data))
             setFetchedSocietyUser(response.data)
             console.log(response.data)

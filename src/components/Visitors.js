@@ -1,14 +1,20 @@
 import React, { useContext, useState } from 'react'
 import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { VisitorContext } from '../context/VisitorContext';
 
 export default function Visitors({title}) {
 
+    const navigate = useNavigate()
     const [buttonId, setButtonId] = useState('Today');
 
     const {setDateToFetch, visitorsFetchedByDate, allVistorsFetched} = useContext(VisitorContext)
 
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    const handleAddVisitor = () => {
+        navigate("/addVisitor")
+    }
 
     const handleOnClick = (id) => {
         setButtonId(id);
@@ -73,6 +79,9 @@ export default function Visitors({title}) {
                         {buttonId !== 'See All' ? displayCards(visitorsFetchedByDate) : displayCards(allVistorsFetched)}
                 </div>
             </div>
+            {title === "guardUser" && <div>
+                <button onClick={() => handleAddVisitor()}>Add Visitor</button>
+            </div>}
     </div>
   )
 }

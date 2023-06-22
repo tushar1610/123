@@ -41,8 +41,13 @@ export const GuardContextProvider = ({children}) => {
     }, [guardUser])
 
     const getGuardUserByUserId = async(url, userId) => {
+        let jwtToken = localStorage.getItem("jwtToken")
         console.log(userId)
-        await axios.get(url + `${userId}`).then(async (response) => {
+        await axios.get(url + `${userId}`, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        }).then(async (response) => {
             localStorage.setItem("guardUser", JSON.stringify(response.data))
             await setFetchedGuardUser(response.data)
             console.log(response.data)
@@ -70,7 +75,12 @@ export const GuardContextProvider = ({children}) => {
       }, [userId]);
 
     const getAllGuards = async(url) => {
-        await axios.get(url)
+        let jwtToken = localStorage.getItem("jwtToken")
+        await axios.get(url, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        })
         .then((response) => {
             console.log(response.data)
             let temp = response.data
@@ -93,7 +103,12 @@ export const GuardContextProvider = ({children}) => {
     }, [getButton])
 
     const updateGuard = async(url, userId, body) => {
-        await axios.put(url + `${userId}`, body)
+        let jwtToken = localStorage.getItem("jwtToken")
+        await axios.put(url + `${userId}`, body, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        })
         .then(async (response) => {
             console.log(response.data)
             setFetchedGuardUser(response.data)

@@ -31,24 +31,24 @@ export default function GuardProfile() {
         }
     }, [isLoading])
 
-    const handleOnChange = async(e, field) => {
+    const handleOnChange = (e, field) => {
         let changedValue = e.target.value
-        await setInputs({
+        setInputs({
             ...inputs,
             [field] : changedValue
         })
     }
 
-    const handleOnClick = async(id) => {
-        await setEdit(true)
-        await setSectionId(id)
+    const handleOnClick = (id) => {
+        setEdit(true)
+        setSectionId(id)
     }
 
     const handleOnSubmit = async() => {
         console.log("entered update")
         await setIsUpdated(true)
         let temp = {
-            gUserId: fetchedGuardUser.gUserId,
+            gUserId: fetchedGuardUser.guserId,
             shiftTime: inputs.shiftTime !== '' ? inputs.shiftTime : fetchedGuardUser.shiftTime,
             address: inputs.address !== '' ? inputs.address : fetchedGuardUser.address,
             user: {

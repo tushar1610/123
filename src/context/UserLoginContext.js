@@ -20,16 +20,18 @@ export const UserLoginProvider = ({children}) => {
         await axios.post(url, body)
            .then((response) => {
             console.log(response)
-            if(response.status === 200){
+            if(response){
                 console.log(response)
-                if(response.data.authorities[0].authority !== "ROLE_GUARD_USER"){
+                if(response.data.role !== "ROLE_GUARD_USER"){
                     localStorage.setItem("email", response.data.username)
-                    localStorage.setItem("role", response.data.authorities[0].authority)
+                    localStorage.setItem("role", response.data.role)
+                    localStorage.setItem("jwtToken", response.data.jwtToken)
                     let tempEmail = localStorage.getItem("email")
                     setEmailAddress(tempEmail)
                 } else {
                     localStorage.setItem("guardEmail", response.data.username)
-                    localStorage.setItem("guardRole", response.data.authorities[0].authority)
+                    localStorage.setItem("guardRole", response.data.role)
+                    localStorage.setItem("jwtToken", response.data.jwtToken)
                     let tempEmail = localStorage.getItem("guardEmail")
                     setEmailAddress(tempEmail)
                 }
@@ -50,9 +52,14 @@ export const UserLoginProvider = ({children}) => {
         // console.log(stringToEncode)
         // const authHeader = base64_encode(stringToEncode)
         // console.log(authHeader)
-        await axios.get(url + `${emailId}`).then((response) => {
+        let jwtToken = localStorage.getItem("jwtToken")
+        await axios.get(url + `${emailId}`, {
+            headers: {
+                Authorization : 'Bearer ' + jwtToken
+            }
+        }).then((response) => {
             console.log(response)
-            if(response.status === 200){
+            if(response){
                 let tempUser = {
                     userId: response.data.userId,
                     userName: response.data.userName,
@@ -72,7 +79,7 @@ export const UserLoginProvider = ({children}) => {
                 }
             }
         }).catch((error) => {
-            if(error.response.status === 403){
+            if(error.response){
                 navigate("/login")
             } else {
                 console.log(error.response)

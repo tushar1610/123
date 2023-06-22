@@ -51,7 +51,7 @@ export default function UserProfile(){
         console.log("entered update")
         setIsUpdated(true)
         let temp = {
-            sUserId: fetchedSocietyUser.sUserId,
+            sUserId: fetchedSocietyUser.suserId,
             ownerName: inputs.owner !== '' ? inputs.owner : fetchedSocietyUser.ownerName,
             flatNo: inputs.flatNo !== '' ? inputs.flatNo : fetchedSocietyUser.flatNo,
             isAdmin: fetchedSocietyUser.isAdmin,

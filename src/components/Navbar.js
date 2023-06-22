@@ -6,6 +6,7 @@ import { useContext } from 'react';
 import { UserLoginContext } from '../context/UserLoginContext';
 import { SocietyUserContext } from '../context/SocietyUserContext';
 import { GuardContext } from '../context/GuardContext';
+import { NotificationContext } from '../context/NotificationContext';
 
 export default function Navbar() {
 
@@ -17,6 +18,7 @@ export default function Navbar() {
   const {setEmailAddress} = useContext(UserLoginContext)
   const {setUserId} = useContext(SocietyUserContext)
   const {setGuardUserId} = useContext(GuardContext)
+  const {setNotificationButtonClicked} = useContext(NotificationContext)
 
 
   if(localStorage.getItem("role")){
@@ -50,6 +52,10 @@ export default function Navbar() {
     }
   }
 
+  const handleNotification = async() => {
+    await setNotificationButtonClicked(true)
+  }
+
   const handleLogout = () => {
     localStorage.clear()
     navigate("/login", {replace : true})
@@ -68,7 +74,7 @@ export default function Navbar() {
             </button>
             <ul className="dropdown-menu">
               <li><Link className="dropdown-item" to={role === "ROLE_GUARD_USER" ? "/guardProfile" : "/userProfile"} onClick={() => profileButton()}>Profile</Link></li>
-              { role !== "ROLE_GUARD_USER" && <li><Link className="dropdown-item" to="/notification">Notifications</Link></li>}
+              { role !== "ROLE_GUARD_USER" && <li><Link className="dropdown-item" to="/notification" onClick={() => handleNotification()}>Notifications</Link></li>}
               <li><hr className="dropdown-divider"/></li>
               <li><div className="dropdown-item" onClick={() => handleLogout()}>Logout</div></li>
             </ul>
