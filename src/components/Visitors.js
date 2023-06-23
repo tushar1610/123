@@ -8,7 +8,7 @@ export default function Visitors({title}) {
     const navigate = useNavigate()
     const [buttonId, setButtonId] = useState('Today');
 
-    const {setDateToFetch, visitorsFetchedByDate, allVistorsFetched} = useContext(VisitorContext)
+    const {setDateToFetch, visitorsFetchedByDate, allVistorsFetched, setOutTimeVisitor} = useContext(VisitorContext)
 
     const [currentIndex, setCurrentIndex] = useState(0)
 
@@ -19,6 +19,10 @@ export default function Visitors({title}) {
     const handleOnClick = (id) => {
         setButtonId(id);
         setDateToFetch(id)
+    }
+
+    const handleExit = (visitor) => {
+        setOutTimeVisitor(visitor)
     }
 
     const handlePrev = () => {
@@ -46,7 +50,10 @@ export default function Visitors({title}) {
                             <div className='container'>
                             {title === "societyUser" ? <p className="card-text">Guard : {visitor.guardName}</p> : <p className="card-text">Flat No : {visitor.societyUser.flatNo}</p>}
                             </div>
-                    
+                            <div className='container'>
+                                {visitor.isApproved !== null ? (visitor.isApproved ? <p>Approved : Yes</p> : <p>Approved : No</p>) : <p>Approval Status : Pending</p>}
+                            </div>
+                            {title === "guardUser" && <button className='btn btn-primary' onClick={() => handleExit(visitor)} disabled={visitor.outTime === null ? "" : "disabled" }>Exit</button>}
                         </div>
                     </div>
                     ))
@@ -85,3 +92,5 @@ export default function Visitors({title}) {
     </div>
   )
 }
+
+

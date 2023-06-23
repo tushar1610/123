@@ -9,12 +9,9 @@ export default function Notification() {
         const societyUser = localStorage.getItem("societyUser")
         console.log(societyUser)
         if(societyUser){
-            console.log(societyUser.user)
-            const username = societyUser.user.userName
             setApprovedVisitor({
                 ...visitor,
-                isApproved: true,
-                approverName: username
+                isApproved: true
             })
         }
     }
@@ -23,7 +20,7 @@ export default function Notification() {
         setApprovedVisitor({
             ...visitor,
             isApproved: false,
-            approverName: societyUser.user.userName
+            approverName: societyUser.ownerName
         })
     }
     if(fetchedNotifications === undefined || fetchedNotifications === null || fetchedNotifications === []){
@@ -41,11 +38,11 @@ export default function Notification() {
             <div className="card-body">
                 <p className="card-text">{notification.message}</p>
                 <p className='card-text'>Date : {notification.timestamp[2]}-{notification.timestamp[1]}-{notification.timestamp[0]}</p>
-                {notification.visitor.approverName === null && <button type="button" className='btn btn-primary' onClick={() => handleOnAccept(notification.visitor)}>Accept</button>}
-                {notification.visitor.approverName === null && <button type="button" className="btn btn-danger" onClick={() => handleOnDecline(notification.visitor)}>Decline</button>}
-                {(notification.visitor.approverName !== null && (notification.visitor.isApproved ? <button type="button" className='btn btn-primary' disabled>Accepted</button>
+                {notification.visitor.isApproved === null && <button type="button" className='btn btn-success me-2 btn-sm' onClick={() => handleOnAccept(notification.visitor)}>Accept</button>}
+                {notification.visitor.isApproved === null && <button type="button" className="btn btn-danger btn-sm" onClick={() => handleOnDecline(notification.visitor)}>Decline</button>}
+                {(notification.visitor.isApproved !== null && (notification.visitor.isApproved ? <button type="button" className='btn btn-success btn-sm' disabled>Accepted</button>
                  : 
-                 <button type="button" className="btn btn-danger" disabled>Declined</button>))}
+                 <button type="button" className="btn btn-danger btn-sm" disabled>Declined</button>))}
             </div>
             </div>))}
         </div>}

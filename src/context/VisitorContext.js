@@ -9,6 +9,7 @@ const getAllVisitorsByDateUrl = "http://localhost:8080/visitor/get/all/date"
 const getAllVisitorsByFlatNoUrl = "http://localhost:8080/visitor/get/all/flatNo"
 const addVisitorUrl = "http://localhost:8080/visitor/add"
 const updateVisitorApprovalUrl = "http://localhost:8080/visitor/update/approval/status/"
+const updateOutTimeVisitorUrl = "http://localhost:8080/visitor/updateVisitorOutTime"
 
 export const VisitorContextProvider = ({children}) => {
 
@@ -18,7 +19,7 @@ export const VisitorContextProvider = ({children}) => {
     const [visitorsFetchedByDate, setVisitorsFetchedByDate] = useState([])
     const [allVistorsFetched, setAllVisitorsFetched] = useState([])
     const [approvedVisitor, setApprovedVisitor] = useState()
-
+    const [outTimeVisitor, setOutTimeVisitor] = useState()
     const getDate = (dateToFetch) => {
         const currentDate = new Date();
         if(dateToFetch === 'Today'){
@@ -33,7 +34,7 @@ export const VisitorContextProvider = ({children}) => {
         }
     }
 
-    const getAllVisitorsByDateAndFlatNo = async(url, date) => {
+    const getAllVisitorsByDate = async(url, date) => {
         try {
             let jwtToken = localStorage.getItem("jwtToken")
             const {data} = await axios.get(url, {
@@ -84,9 +85,26 @@ export const VisitorContextProvider = ({children}) => {
         if(dateToFetch !== ''){
             if(dateToFetch !== 'See All'){
                 const date = getDate(dateToFetch);
-                getAllVisitorsByDateAndFlatNo(getAllVisitorsByDateAndFlatNoUrl, date)
+                const role = localStorage.getItem("role")
+                if(role){
+                    getAllVisitorsByDate(getAllVisitorsByDateAndFlatNoUrl, date)
+                } else {
+                    const guardRole = localStorage.getItem("guardRole")
+                    if(guardRole){
+                        getAllVisitorsByDate(getAllVisitorsByDateUrl, date)
+                    }
+                }
             } else {
-                getAllVisitors(getAllVisitorsByFlatNoUrl)
+                const role = localStorage.getItem("role")
+                if(role){
+                    getAllVisitors(getAllVisitorsByFlatNoUrl)
+                } else {
+                    const guardRole = localStorage.getItem("guardRole")
+                    if(guardRole){
+                        getAllVisitors(getAllVisitorsUrl)
+                    }
+                }
+                
             }
         }
     }, [dateToFetch])
@@ -133,8 +151,30 @@ export const VisitorContextProvider = ({children}) => {
         }
     }, [approvedVisitor])
 
+    const updateOutTimeVisitor = async(url, body, jwtToken) => {
+        await axios.put(url, body, {
+            headers : {
+                Authorization: "Bearer " + jwtToken
+            }
+        }).then((response) => {
+            console.log(response.data)
+            alert("Exit has been updated")
+        }).catch((error) => {
+            console.log(error.response)
+        })
+    }
+
+    useEffect(() => {
+        if(outTimeVisitor) {
+            let jwtToken = localStorage.getItem("jwtToken")
+            if(jwtToken) {
+                updateOutTimeVisitor(updateOutTimeVisitorUrl, outTimeVisitor, jwtToken)
+            }
+        }
+    }, [outTimeVisitor])
+
     return(
-        <VisitorContext.Provider value={{setDateToFetch, visitorsFetchedByDate, allVistorsFetched, setAddVisitor, setApprovedVisitor}}>
+        <VisitorContext.Provider value={{setDateToFetch, visitorsFetchedByDate, allVistorsFetched, setAddVisitor, setApprovedVisitor, setOutTimeVisitor}}>
             {children}
         </VisitorContext.Provider>
     )
