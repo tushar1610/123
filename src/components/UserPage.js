@@ -12,7 +12,7 @@ export default function UserPage() {
         <div>
             {/* <Report/> */}
             <Visitors title="societyUser"/>
-            <Guards title="societyUser"/>
+            {/* <Guards title="societyUser"/> */}
         </div>
     )
 }

@@ -63,8 +63,8 @@ export default function GuardProfile() {
         };
         await setUpdatedGuardUser(temp)
         console.log(temp)
-        await setEdit(false);
-        await setInputs({
+        setEdit(false);
+        setInputs({
             username: '',
             age: '',
             contactNo: '',
@@ -78,7 +78,7 @@ export default function GuardProfile() {
     <div>
         {fetchedGuardUser !== undefined && <div>
         <center>
-            <PersonBoundingBox size={150}/>
+            <PersonBoundingBox className="mt-3" size={150}/>
         </center>
         <div>
             <div style={{display: "flex", flexDirection: "column",  marginLeft:"20px", marginRight:"20px"}}>

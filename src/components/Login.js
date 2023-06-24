@@ -17,21 +17,26 @@ export default function Login() {
     }
 
   return (
-    <center>
-        <h3 className="mt-3 mb-3">Login</h3>
-        <form style={{width : "40%"}} onSubmit={handleOnSubmit} action="/loginUser">
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="card shadow" style={{ width: "400px", backgroundColor: "#0D355D" }}>
+        <div className="card-body">
+          <h3 className="card-title text-center mb-4" style={{color: "#FFFFFF"}}>Login</h3>
+          <form onSubmit={handleOnSubmit}>
             <div className="mb-3">
-                <input type="text" placeholder="Email Address" className="form-control" id="username" name='username'/>
+              <input type="text" placeholder="Email Address" className="form-control" id="username" name="username" />
             </div>
             <div className="mb-3">
-                <input type="password" placeholder="Password" className="form-control" id="password" name='password'/>
+              <input type="password" placeholder="Password" className="form-control" id="password" name="password" />
             </div>
-            <div className='container' >
-                {/*<Link to='/userPage'>*/}<button type="submit" style={{float : 'right'}} className="btn btn-primary gap-2">Submit</button>{/*</Link>*/}
-                <button type="reset" style={{float : 'right'}} className="btn transparent-button gap-2">Cancel</button>
+            <div className="d-grid gap-2">
+              <button type="submit" className="btn" style={{backgroundColor: "#4FAADC"}}>Submit</button>
+              <button type="reset" className="btn" style={{backgroundColor: "#CCCCCC"}}>Cancel</button>
+              <hr style={{color:"#FFFFFF"}}/>
+              <p className="text-center" style={{color:"#FFFFFF"}}>Don't have an account? <Link to="/registrationPage" className="link-info">Register here</Link></p>
             </div>
-        </form>
-        {/* <Outlet/> */}
-    </center>
+          </form>
+        </div>
+      </div>
+    </div>
   )
 }

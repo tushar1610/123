@@ -34,8 +34,8 @@ export default function Notification() {
     <div>
         {fetchedNotifications && <div>
             {fetchedNotifications.map((notification) => (
-                <div key={notification.notificationId} className="card">
-            <div className="card-body">
+                <div key={notification.notificationId} className="card rounded mt-2 mb-2 ms-2 me-2">
+            <div className="card-body shadow ">
                 <p className="card-text">{notification.message}</p>
                 <p className='card-text'>Date : {notification.timestamp[2]}-{notification.timestamp[1]}-{notification.timestamp[0]}</p>
                 {notification.visitor.isApproved === null && <button type="button" className='btn btn-success me-2 btn-sm' onClick={() => handleOnAccept(notification.visitor)}>Accept</button>}

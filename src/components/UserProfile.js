@@ -82,7 +82,7 @@ export default function UserProfile(){
     <div>
         {fetchedSocietyUser !== undefined && <div>
         <center>
-            <PersonBoundingBox size={150}/>
+            <PersonBoundingBox className='mt-3' size={150}/>
         </center>
         <div>
             <div style={{display: "flex", flexDirection: "column",  marginLeft:"20px", marginRight:"20px"}}>
